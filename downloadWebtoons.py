@@ -6,7 +6,7 @@ import bs4
 import os
 
 
-n = 186  # initial episode number
+n = 185  # initial episode number
 
 # To crossover rel="nofollow"
 req_header = {'Referer': 'http://www.webtoons.com/'}
@@ -20,8 +20,12 @@ while True:
     if res.status_code != requests.codes.ok:
         break
 
-    targetDir = '/home/sjk/Pictures/comic/girls-of-the-wilds/%s' % n
-
+    targetDir = '/home/sjk/Pictures/comics/girls-of-the-wilds/%s' % n
+    # Check whether current episode exists or not
+    if os.path.exists(targetDir) == True:
+        print('\nEpisode %s has already been download.' % n)
+        n += 1
+        continue
     os.makedirs(targetDir, exist_ok=True)  # store comics in targetDir
 
     soup = bs4.BeautifulSoup(res.text)
